@@ -43,7 +43,7 @@ app.prepare().then(() => {
       ╔════════════════════════════════════════╗
       ║  🚀 Esad Chat Server Started           ║
       ║  📍 URL: http://${hostname}:${port}     ║
-      ║  🔌 WebSocket: ws://localhost:${port}  ║
+      ║  🔌 WebSocket: ws://${hostname}:${port}  ║
       ║  🌍 Node: ${process.env.NODE_ENV || 'development'}                    ║
       ╚════════════════════════════════════════╝
     `);

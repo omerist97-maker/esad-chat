@@ -1,6 +1,5 @@
 import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/db';
 import { Message, Conversation } from '@/lib/types';
 
@@ -15,9 +14,7 @@ export function initializeSocket(httpServer: any): SocketIOServer {
   if (!io) {
     io = new SocketIOServer(httpServer, {
       cors: {
-        origin: process.env.NODE_ENV === 'production'
-          ? process.env.NEXT_PUBLIC_APP_URL || 'https://yourdomain.com'
-          : ['http://localhost:3000', 'http://localhost:3001'],
+        origin: process.env.NEXT_PUBLIC_APP_URL,
         methods: ['GET', 'POST'],
       },
       path: '/api/socket.io/',

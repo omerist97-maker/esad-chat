@@ -8,7 +8,10 @@ let socketInstance: Socket | null = null;
  */
 export function getSocket(): Socket {
   if (!socketInstance) {
-    socketInstance = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000', {
+    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL;
+    if (!socketUrl) throw new Error('NEXT_PUBLIC_SOCKET_URL environment variable is not set');
+
+    socketInstance = io(socketUrl, {
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
