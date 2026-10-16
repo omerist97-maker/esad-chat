@@ -170,8 +170,8 @@ roll = [14.0 + i * BEAT / 2 for i in range(4)] + [15.0 + i * S16 for i in range(
 for i, tr in enumerate(roll):
     add(clap(), tr, 0.1 + 0.3 * i / len(roll))
 add(riser(2.0), 14.0, 0.45)
-for i in range(6):  # her tik işaretinde ding
-    adds(pluck(79 + [0, 2, 4, 5, 7, 9][i], 0.3), 14.0 + i * 0.25, 0.18)
+for i in range(5):  # her tik işaretinde ding
+    adds(pluck(79 + [0, 2, 4, 5, 7][i], 0.3), 14.0 + i * 0.3, 0.18)
 
 # 16-19.5: final drop
 add(impact(), 16.0, 1.0)

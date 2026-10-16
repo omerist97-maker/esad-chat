@@ -1,6 +1,6 @@
 """Network Marketing — "Ekibimiz" 20 sn Instagram Reels (1080x1920) motion graphics videosu.
 
-6 başlık, numaralı sahneler (01–06), zümrüt yeşili + altın stil; 120 BPM vuruşlarına senkron.
+Yeni başlayanlara hitap + 5 başlık, numaralı sahneler (01–05), zümrüt yeşili + altın stil; 120 BPM vuruşlarına senkron.
 Kullanım: python3 render.py music.wav out.mp4   |   python3 render.py x kare.png <kare_no>
 """
 import math
@@ -169,22 +169,6 @@ def person(d, cx, cy, s, c, ring=None):
     d.chord((cx - 42 * k, cy + 4 * k, cx + 42 * k, cy + 88 * k), 180, 360, fill=c)
 
 
-def icon_starters(fg, d, u, cx, cy):
-    """01 — tek tek ekibe katılan kişiler, '+1' etiketleri."""
-    for i in range(9):
-        c, r = i % 3, i // 3
-        t0 = 0.15 + i * 0.11
-        p = prog(u, t0, 0.35)
-        if p <= 0:
-            continue
-        s = 105 * max(0.0, ease_out_back(p))
-        x, y = cx + (c - 1) * 240, cy + (r - 1) * 220
-        person(d, x, y, s, TEAL_BOT, ring=AVATAR_COLORS[i % len(AVATAR_COLORS)])
-        q = prog(u, t0, 0.7)
-        if q < 1:
-            put(fg, text_img("+1", 54, GOLD), x + 70, y - 70 - 70 * q, alpha=1 - q)
-
-
 def icon_not_alone(fg, d, u, cx, cy):
     """02 — merkezdeki kişinin etrafında birleşen ekip."""
     n = 6
@@ -288,9 +272,9 @@ def gear(d, cx, cy, r, teeth, rot, color, hole_r):
 def icon_team(fg, d, u, cx, cy):
     """05 — birbirine kenetlenip dönen dişliler."""
     spin = u * 2.2
-    gears = [(cx - 120, cy - 70, 190, 12, spin, GOLD, 0.0),
-             (cx + 190, cy - 230, 125, 8, -spin * 1.5 + 0.2, TEAL_LT, 0.15),
-             (cx + 170, cy + 200, 140, 9, -spin * 1.36 + 0.1, WHITE, 0.3)]
+    gears = [(cx - 120, cy - 110, 190, 12, spin, GOLD, 0.0),
+             (cx + 190, cy - 270, 125, 8, -spin * 1.5 + 0.2, TEAL_LT, 0.15),
+             (cx + 170, cy + 150, 140, 9, -spin * 1.36 + 0.1, WHITE, 0.3)]
     for x, y, r, n, rot, c, t0 in gears:
         s = max(0.0, ease_out_back(prog(u, 0.05 + t0, 0.4)))
         if s > 0.02:
@@ -300,8 +284,8 @@ def icon_team(fg, d, u, cx, cy):
         p = ease_out_expo(prog(u, 0.7 + i * 0.12, 0.4))
         if p <= 0:
             continue
-        x = cx + (i - 1) * 105 * p
-        d.ellipse((x - 70, cy + 330 - 70, x + 70, cy + 330 + 70), outline=AVATAR_COLORS[i] + (230,), width=12)
+        x = cx + (i - 1) * 88 * p
+        d.ellipse((x - 58, cy + 395 - 58, x + 58, cy + 395 + 58), outline=AVATAR_COLORS[i] + (230,), width=12)
 
 
 def icon_results(fg, d, u, cx, cy):
@@ -345,40 +329,63 @@ def icon_results(fg, d, u, cx, cy):
 
 # ---------------------------------------------------------------- sahneler
 HEADINGS = [
-    (["EKİBİMİZDE", "BİZİMLE", "BAŞLAYANLAR"], icon_starters),
     (["YALNIZ", "DEĞİLSİNİZ"], icon_not_alone),
     (["GÜÇLÜ", "SPONSORLAR"], icon_sponsors),
     (["HER GÜN", "ONLINE EĞİTİMLER"], icon_online),
     (["TAKIM", "ÇALIŞMASI"], icon_team),
     (["SONUÇ VEREN", "YÖNTEMLER"], icon_results),
 ]
-RECAP = ["Bizimle başlayanlar", "Yalnız değilsiniz", "Güçlü sponsorlar", "Her gün online eğitim",
+RECAP = ["Yalnız değilsiniz", "Güçlü sponsorlar", "Her gün online eğitim",
          "Takım çalışması", "Sonuç veren yöntemler"]
 
 
 def scene_intro(t, fg):
+    """0–2 sn: hitap — 'Ekibimizde bizimle başlayanlar,'"""
     d = ImageDraw.Draw(fg)
-    reveal(fg, text_img("NEDEN", 130, WHITE), W / 2, 560, prog(t, 0.05, 0.35))
-    reveal(fg, text_img("BİZİM EKİBİMİZ?", 120, WHITE), W / 2, 710, prog(t, 0.3, 0.35))
-    if t >= 0.9:
-        p = prog(t, 0.9, 1.1)
-        s = 0.6 + 0.5 * ease_in_out(p)
-        put(fg, text_img("6", 520, GOLD), W / 2, 1150, scale=s, alpha=clamp(p * 4))
-        put(fg, text_img("SEBEP", 110, GOLD), W / 2, 1480, alpha=prog(t, 1.2, 0.3))
-    # dönen halka
-    p = ease_out_expo(prog(t, 0.6, 0.6))
-    r = 330 * p
-    d.arc((W / 2 - r, 1150 - r, W / 2 + r, 1150 + r), t * 220, t * 220 + 260 * p, fill=GOLD, width=10)
+    reveal(fg, text_img("EKİBİMİZDE", 130, WHITE), W / 2, 470, prog(t, 0.05, 0.35))
+    reveal(fg, text_img("BİZİMLE", 150, WHITE), W / 2, 630, prog(t, 0.3, 0.35))
+    reveal(fg, text_img("BAŞLAYANLAR,", 150, GOLD), W / 2, 800, prog(t, 0.55, 0.35))
+    # ekibe yeni katılanlar
+    for i in range(5):
+        t0 = 0.85 + i * 0.1
+        p = prog(t, t0, 0.35)
+        if p <= 0:
+            continue
+        x, y = W / 2 + (i - 2) * 175, 1100
+        person(d, x, y, 100 * max(0.0, ease_out_back(p)), TEAL_BOT, ring=AVATAR_COLORS[i])
+        q = prog(t, t0, 0.7)
+        if q < 1:
+            put(fg, text_img("+1", 50, GOLD), x + 60, y - 70 - 60 * q, alpha=1 - q)
+    if t >= 1.35:
+        p = ease_out_back(prog(t, 1.35, 0.35))
+        put(fg, pill_img("BU MESAJ SİZİN İÇİN", 56, TEAL_BOT, GOLD), W / 2, 1360, scale=max(0.01, p))
+
+
+def scene_five(u, fg):
+    """2–4 sn: 'Bilmenizi istediğimiz 5 şey' — halka '5'in etrafında, yazılarla çakışmaz."""
+    d = ImageDraw.Draw(fg)
+    reveal(fg, text_img("BİLMENİZİ", 120, WHITE), W / 2, 380, prog(u, 0.0, 0.3))
+    reveal(fg, text_img("İSTEDİĞİMİZ", 120, WHITE), W / 2, 520, prog(u, 0.12, 0.3))
+    cy = 930
+    p = ease_out_back(prog(u, 0.05, 0.4))
+    put(fg, text_img("5", 400, GOLD), W / 2, cy, scale=max(0.01, p) * (1 + 0.03 * math.sin(u * math.pi * 4)))
+    pr = ease_out_expo(prog(u, 0.1, 0.5))
+    r = 270 * pr
+    a0 = u * 200
+    d.arc((W / 2 - r, cy - r, W / 2 + r, cy + r), a0, a0 + 270 * pr, fill=GOLD, width=10)
+    d.arc((W / 2 - r - 30, cy - r - 30, W / 2 + r + 30, cy + r + 30), -a0 * 0.7, -a0 * 0.7 + 120 * pr,
+          fill=TEAL_LT, width=6)
+    reveal(fg, text_img("ŞEY VAR", 130, GOLD), W / 2, 1360, prog(u, 0.3, 0.35))
 
 
 def scene_heading(i, u, fg):
     lines, icon = HEADINGS[i]
     d = ImageDraw.Draw(fg)
     # büyük numara (dış çizgi)
-    num = f"0{i + 1}"
+    num = f"0{i + 1}"  # 01–05
     p = ease_out_expo(prog(u, 0.0, 0.4))
     put(fg, text_img(num, 260, GOLD, outline=5), 200 + (1 - p) * 200, 360, alpha=p)
-    put(fg, text_img("/ 06", 56, (255, 255, 255), path=FONT_MED), 420, 400, alpha=prog(u, 0.15, 0.3) * 0.6)
+    put(fg, text_img("/ 05", 56, (255, 255, 255), path=FONT_MED), 420, 400, alpha=prog(u, 0.15, 0.3) * 0.6)
     icon(fg, d, u, W / 2, 820)
     # başlık satırları
     y0 = 1380 if len(lines) == 2 else 1340
@@ -396,8 +403,8 @@ def scene_recap(t, fg):
     d = ImageDraw.Draw(fg)
     reveal(fg, text_img("HEPSİ BU EKİPTE", 110, GOLD), W / 2, 380, prog(t, 14.0, 0.35))
     for i, txt in enumerate(RECAP):
-        y = 600 + i * 150
-        t0 = 14.0 + i * 0.25
+        y = 640 + i * 165
+        t0 = 14.0 + i * 0.3
         p = prog(t, t0, 0.3)
         if p <= 0:
             continue
@@ -413,9 +420,9 @@ def scene_recap(t, fg):
 
 def scene_outro(t, fg):
     d = ImageDraw.Draw(fg)
-    slam(fg, text_img("SEN DE", 150, WHITE), W / 2, 420, t, 16.0)
-    slam(fg, text_img("ARAMIZA", 170, WHITE), W / 2, 590, t, 16.25)
-    slam(fg, text_img("KATIL!", 280, GOLD), W / 2, 820, t, 16.5, rot=-3)
+    slam(fg, text_img("İYİ Kİ", 160, WHITE), W / 2, 420, t, 16.0)
+    slam(fg, text_img("BİZİMLE", 170, WHITE), W / 2, 590, t, 16.25)
+    slam(fg, text_img("BAŞLADINIZ!", 200, GOLD), W / 2, 800, t, 16.5, rot=-3)
     # ekip sırası
     for i in range(7):
         t0 = 17.0 + i * 0.07
@@ -428,9 +435,9 @@ def scene_outro(t, fg):
     if t >= 17.5:
         pp = ease_out_back(prog(t, 17.5, 0.35))
         pulse = 1 + 0.035 * math.sin((t - 17.5) * math.pi * 4)
-        put(fg, pill_img("BİLGİ İÇİN DM", 88, TEAL_BOT, GOLD, padx=70, pady=36), W / 2, 1360,
+        put(fg, pill_img("BİRLİKTE BÜYÜYORUZ", 72, TEAL_BOT, GOLD, padx=60, pady=34), W / 2, 1360,
             scale=max(0.01, pp) * pulse)
-        reveal(fg, text_img("Hemen yaz, birlikte başlayalım", 56, WHITE, path=FONT_MED), W / 2, 1520,
+        reveal(fg, text_img("Sorularınız için her zaman buradayız", 52, WHITE, path=FONT_MED), W / 2, 1520,
                prog(t, 17.9, 0.35))
 
 
@@ -439,9 +446,11 @@ def content(t):
     fg = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     if t < 2.0:
         scene_intro(t, fg)
+    elif t < 4.0:
+        scene_five(t - 2.0, fg)
     elif t < 14.0:
-        i = int((t - 2.0) // 2)
-        scene_heading(i, t - 2.0 - i * 2, fg)
+        i = int((t - 4.0) // 2)
+        scene_heading(i, t - 4.0 - i * 2, fg)
     elif t < 16.0:
         scene_recap(t, fg)
     else:
@@ -454,12 +463,12 @@ PUSH = 0.3
 
 
 def progress_dots(frame, t):
-    if not 2.0 <= t < 14.0:
+    if not 4.0 <= t < 14.0:
         return
     d = ImageDraw.Draw(frame)
-    cur = int((t - 2.0) // 2)
-    for i in range(6):
-        x = W / 2 + (i - 2.5) * 70
+    cur = int((t - 4.0) // 2)
+    for i in range(5):
+        x = W / 2 + (i - 2) * 70
         y = 170
         if i == cur:
             d.rounded_rectangle((x - 26, y - 9, x + 26, y + 9), radius=9, fill=GOLD)
